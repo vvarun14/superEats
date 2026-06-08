@@ -31,6 +31,6 @@ public class MenuItem {
     private Boolean isAvailable = true;
 
     @ManyToOne
-    @JoinColumn(name="restaurant_id")
+    @JoinColumn(name="restaurants_id")
     private Restaurant restaurant;
 }
