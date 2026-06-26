@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../api/authApi";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -57,6 +58,12 @@ function Login() {
         >
           Login
         </button>
+        <p className="text-center text-sm mt-4">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-orange-500 font-semibold">
+            Register
+          </Link>
+        </p>
       </form>
     </div>
   );

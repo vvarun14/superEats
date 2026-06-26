@@ -33,6 +33,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/restaurants/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/menu-items/**").permitAll()
                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
