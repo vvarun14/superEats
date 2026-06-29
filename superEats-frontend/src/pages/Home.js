@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllRestaurants } from "../api/restaurantApi";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -35,20 +36,21 @@ function Home() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {restaurants.map((restaurant) => (
-          <div
+          <Link
             key={restaurant.id}
+            to={`/restaurants/${restaurant.id}`}
             className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition"
           >
             <h2 className="text-xl font-semibold">{restaurant.name}</h2>
             <p className="text-gray-500">{restaurant.address}</p>
             <p
               className={`mt-2 text-sm font-medium ${
-                restaurant.isOpen ? "text-green-600" : "text-red-500"
+                restaurant.open ? "text-green-600" : "text-red-500"
               }`}
             >
-              {restaurant.isOpen ? "Open" : "Closed"}
+              {restaurant.open ? "Open" : "Closed"}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
