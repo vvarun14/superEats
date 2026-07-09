@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getRestaurantById } from "../api/restaurantApi";
 import { getMenuItemsByRestaurant } from "../api/menuItemApi";
+import { useCart } from "../context/CartContext";
 
 function RestaurantDetail() {
   const { id } = useParams();
+  const { addToCart } = useCart();
   const [restaurant, setRestaurant] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,6 +67,15 @@ function RestaurantDetail() {
             >
               {item.available ? "Available" : "Unavailable"}
             </p>
+
+            {item.available && (
+              <button
+                onClick={() => addToCart(item, restaurant.id, restaurant.name)}
+                className="mt-3 bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 text-sm"
+              >
+                Add to Cart
+              </button>
+            )}
           </div>
         ))}
       </div>

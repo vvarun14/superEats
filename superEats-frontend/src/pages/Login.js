@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { loginUser } from "../api/authApi";
-import { Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = location.state?.from || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +17,7 @@ function Login() {
     try {
       const data = await loginUser(email, password);
       localStorage.setItem("token", data.token);
-      alert("Login successful!");
+      navigate(redirectTo);
     } catch (err) {
       setError("Invalid email or password");
     }
