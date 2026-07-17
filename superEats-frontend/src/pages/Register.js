@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { registerUser } from "../api/authApi";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +17,8 @@ function Register() {
     try {
       const data = await registerUser(name, email, password);
       localStorage.setItem("token", data.token);
-      alert("Registration successful!");
+      localStorage.setItem("userId", data.userId);
+      navigate("/");
     } catch (err) {
       setError("Registration failed. Email may already be in use.");
     }

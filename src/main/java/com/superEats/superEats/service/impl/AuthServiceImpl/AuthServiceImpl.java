@@ -50,11 +50,11 @@ public class AuthServiceImpl implements AuthService {
         );
 
         return AuthResponse.builder()
-                oken)
-                user.getId())
-                er.getName())
-                ser.getEmail())
-                ;
+                .token(token)
+                .userId(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
     }
 
     @Override
@@ -79,10 +79,10 @@ public class AuthServiceImpl implements AuthService {
         );
 
         return AuthResponse.builder()
-                oken)
-                user.getId())
-                er.getName())
-                ser.getEmail())
-                ;
+                .token(token)
+                .userId(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
     }
 }

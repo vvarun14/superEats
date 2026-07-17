@@ -1,26 +1,45 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { placeOrder } from "../api/orderApi";
 
 function Cart() {
-  const { restaurantName, items, updateQuantity, removeFromCart, clearCart } =
+  const { restaurantId, restaurantName, items, updateQuantity, removeFromCart, clearCart } =
     useCart();
 
   const navigate = useNavigate();
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
 
     if (!token) {
       const confirm = window.confirm(
-        "You need to be logged in to place an order. Go to Login?",
+        "You need to be logged in to place an order. Go to Login?"
       );
       if (confirm) {
         navigate("/login", { state: { from: "/cart" } });
       }
       return;
     }
-    alert("Placing order...");
+
+    try {
+      const orderData = {
+        userId: parseInt(userId),
+        restaurantId: restaurantId,
+        items: items.map((item) => ({
+          menuItemId: item.id,
+          quantity: item.quantity,
+        })),
+      };
+
+      const response = await placeOrder(orderData);
+      clearCart();
+      alert(`Order placed successfully! Order ID: ${response.orderId}`);
+      navigate("/");
+    } catch (err) {
+      alert("Failed to place order. Please try again.");
+    }
   };
 
   const total = items.reduce(
