@@ -17,6 +17,7 @@ function Register() {
     try {
       const data = await registerUser(name, email, password);
       localStorage.setItem("token", data.token);
+      localStorage.setItem("name", data.name);
       localStorage.setItem("userId", data.userId);
       navigate("/");
     } catch (err) {

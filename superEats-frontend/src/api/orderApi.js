@@ -19,3 +19,13 @@ export const getOrderById = async (id) => {
   });
   return response.data;
 };
+
+export const getOrdersByUser = async (userId) => {
+  const token = localStorage.getItem("token");
+  const response = await axiosInstance.get(`/orders/user/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};

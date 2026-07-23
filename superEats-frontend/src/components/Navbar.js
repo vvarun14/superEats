@@ -1,9 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useState, useEffect } from "react";
 
 function Navbar() {
-  const { items } = useCart();
+  const { items, clearCart } = useCart();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const name = localStorage.getItem("name");
+    if (name) setUsername(name);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("name");
+    clearCart();
+    setUsername("");
+    navigate("/login");
+  };
 
   return (
     <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
@@ -20,6 +38,33 @@ function Navbar() {
             </span>
           )}
         </Link>
+
+        {username ? (
+          <div className="flex items-center gap-4">
+                      <span className="text-gray-700 font-medium">Hi, {username}</span>
+                      <Link to="/orders" className="text-gray-700 font-medium">
+                        My Orders
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 text-sm"
+                      >
+                        Logout
+                      </button>
+                    </div>
+        ) : (
+          <div className="flex items-center gap-4">
+            <Link to="/login" className="text-gray-700 font-medium">
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 text-sm"
+            >
+              Register
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );
